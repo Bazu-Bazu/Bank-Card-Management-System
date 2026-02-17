@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/migrations/V1_create_users.sql
+  - include:
+      file: db/migrations/V2_create_cards.sql
+  - include:
+      file: db/migrations/V3_create_refresh_tokens.sql
