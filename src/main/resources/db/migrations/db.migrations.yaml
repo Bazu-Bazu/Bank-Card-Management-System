@@ -5,3 +5,7 @@ databaseChangeLog:
       file: db/migrations/V2_create_cards.sql
   - include:
       file: db/migrations/V3_create_refresh_tokens.sql
+  - include:
+      file: db/migrations/V4_add_card_status.sql
+  - include:
+      file: db/migrations/V5_fix_in_number.sql

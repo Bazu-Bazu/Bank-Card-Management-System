@@ -20,6 +20,13 @@ public class UserService {
                 ));
     }
 
+    public User findUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(
+                        String.format("User %d not found", id)
+                ));
+    }
+
     public UserResponse createUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
@@ -28,6 +35,5 @@ public class UserService {
                 .enabled(user.getEnabled())
                 .build();
     }
-
 
 }

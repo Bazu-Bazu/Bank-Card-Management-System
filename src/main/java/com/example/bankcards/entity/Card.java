@@ -1,5 +1,6 @@
 package com.example.bankcards.entity;
 
+import com.example.bankcards.entity.converter.CardNumberEncryptor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class Card {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @Convert(converter = CardNumberEncryptor.class)
     private String number;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,6 +34,11 @@ public class Card {
     private LocalDate expirationDate;
 
     @Column(nullable = false)
-    private BigDecimal balance;
+    @Builder.Default
+    private BigDecimal balance = BigDecimal.ZERO;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private CardStatus status = CardStatus.ACTIVE;
 
 }

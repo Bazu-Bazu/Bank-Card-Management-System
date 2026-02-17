@@ -1,11 +1,14 @@
 package com.example.bankcards.exception.handler;
 
 import com.example.bankcards.exception.*;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,10 +21,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handlerException(MethodArgumentNotValidException e) {
-        String message = "Validation Error: " +
-                "1) Username must be 5-50 characters and contain only letters, numbers and underscores. " +
-                "2) Password must be 8-50 characters and contain lowercase and uppercase letters, " +
-                "numbers and special characters.";
+        List<String> errors = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .toList();
+
+        String message = "Validation Error: " + errors;
         return ResponseEntity.status(400).body(message);
     }
 
@@ -49,6 +55,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RefreshTokenNotFoundException.class)
     public ResponseEntity<?> handlerException(RefreshTokenNotFoundException e) {
         return ResponseEntity.status(404).body(e.getMessage());
+    }
+
+    @ExceptionHandler(CardNotFoundException.class)
+    public ResponseEntity<?> handlerException(CardNotFoundException e) {
+        return ResponseEntity.status(404).body(e.getMessage());
+    }
+
+    @ExceptionHandler(CardAlreadyExistsException.class)
+    public ResponseEntity<?> handlerException(CardAlreadyExistsException e) {
+        return ResponseEntity.status(400).body(e.getMessage());
     }
 
 }
