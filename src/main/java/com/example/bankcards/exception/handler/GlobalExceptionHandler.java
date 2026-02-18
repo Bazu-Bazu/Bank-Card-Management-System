@@ -67,4 +67,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(e.getMessage());
     }
 
+    @ExceptionHandler(NotEnoughMoneyOnTheCardException.class)
+    public ResponseEntity<?> handlerException(NotEnoughMoneyOnTheCardException e) {
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
+
+    @ExceptionHandler(CardIsNotActive.class)
+    public ResponseEntity<?> handlerException(CardIsNotActive e) {
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
+
 }

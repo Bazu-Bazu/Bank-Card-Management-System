@@ -8,13 +8,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("admin/cards")
+@RequestMapping("/admin/cards")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
 public class AdminCardController {
@@ -62,7 +60,7 @@ public class AdminCardController {
     public ResponseEntity<?> deleteCard(@PathVariable("cardId") @Valid Long cardId) {
         cardService.deleteCard(cardId);
 
-        return ResponseEntity.status(200).body(null);
+        return ResponseEntity.status(204).body(null);
     }
 
 }

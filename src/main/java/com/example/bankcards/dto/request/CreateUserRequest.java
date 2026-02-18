@@ -2,7 +2,7 @@ package com.example.bankcards.dto.request;
 
 import jakarta.validation.constraints.Pattern;
 
-public record RegisterUserRequest(
+public record CreateUserRequest(
 
         @Pattern(
                 regexp = "^[A-Za-z0-9_]{5,50}$",

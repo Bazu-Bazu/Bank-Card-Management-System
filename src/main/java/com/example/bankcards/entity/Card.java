@@ -41,4 +41,9 @@ public class Card {
     @Builder.Default
     private CardStatus status = CardStatus.ACTIVE;
 
+    public boolean isActive() {
+        return !LocalDate.now().isAfter(expirationDate)
+                && this.status.equals(CardStatus.ACTIVE);
+    }
+
 }

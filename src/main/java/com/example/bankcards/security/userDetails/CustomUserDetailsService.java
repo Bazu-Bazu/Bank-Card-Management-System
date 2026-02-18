@@ -2,6 +2,8 @@ package com.example.bankcards.security.userDetails;
 
 import com.example.bankcards.entity.User;
 import com.example.bankcards.exception.UserIsNotEnabledException;
+import com.example.bankcards.exception.UserNotFoundException;
+import com.example.bankcards.repository.UserRepository;
 import com.example.bankcards.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,11 +15,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findUserByUsername(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(
+                        String.format("User with name %s not found", username)
+                ));
 
         if (!user.getEnabled()) {
             throw new UserIsNotEnabledException(

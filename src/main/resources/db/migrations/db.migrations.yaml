@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/migrations/V4_add_card_status.sql
   - include:
       file: db/migrations/V5_fix_in_number.sql
+  - include:
+      file: db/migrations/V6_create_transfers.sql
