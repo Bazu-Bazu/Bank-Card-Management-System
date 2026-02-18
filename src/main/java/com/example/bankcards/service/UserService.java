@@ -5,6 +5,7 @@ import com.example.bankcards.dto.response.UserResponse;
 import com.example.bankcards.entity.Role;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.exception.UserAlreadyExistsException;
+import com.example.bankcards.exception.UserIsAdminException;
 import com.example.bankcards.exception.UserNotFoundException;
 import com.example.bankcards.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,9 @@ public class UserService {
     @Transactional
     public UserResponse disableUser(Long userId) {
         User user = findUserById(userId);
+
+        validateUserIsNotAdmin(user);
+
         user.setEnabled(false);
         User savedUser = userRepository.save(user);
 
@@ -52,10 +56,21 @@ public class UserService {
     @Transactional
     public UserResponse enableUser(Long userId) {
         User user = findUserById(userId);
+
+        validateUserIsNotAdmin(user);
+
         user.setEnabled(true);
         User savedUser = userRepository.save(user);
 
         return createUserResponse(savedUser);
+    }
+
+    private void validateUserIsNotAdmin(User user) {
+        if (user.getRole().equals(Role.ADMIN)) {
+            throw new UserIsAdminException(
+                    String.format("User %d has role ADMIN", user.getId())
+            );
+        }
     }
 
     public UserResponse getUserById(Long userId) {

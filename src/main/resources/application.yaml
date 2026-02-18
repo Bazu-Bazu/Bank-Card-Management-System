@@ -1,14 +1,14 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
     name: bank-card-management-system
 
   datasource:
-    url: jdbc:postgresql://localhost:5442/postgres
-    username: postgres
-    password: postgres
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres_user:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
 
   jpa:
     hibernate:
@@ -29,3 +29,8 @@ jwt:
 
   refresh-token:
     expiration: 2592000000
+
+app:
+  admin:
+    username: admin
+    password: admin

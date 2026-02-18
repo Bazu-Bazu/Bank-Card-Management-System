@@ -1,18 +1,12 @@
 package com.example.bankcards.aop;
 
-import jakarta.persistence.Entity;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.hibernate.proxy.HibernateProxy;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 @Aspect

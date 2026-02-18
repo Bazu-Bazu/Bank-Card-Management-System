@@ -33,15 +33,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/user/**")
                         .hasRole("USER")
-                        .requestMatchers("admin/**")
+                        .requestMatchers("/admin/**")
                         .hasRole("ADMIN")
                         .requestMatchers(
                                 "/auth/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
-                                "/api-docs/**",
-                                "/admin/"
+                                "/api-docs/**"
                         )
                         .permitAll()
                 )
@@ -72,6 +71,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }

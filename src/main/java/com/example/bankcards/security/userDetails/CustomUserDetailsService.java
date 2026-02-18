@@ -4,7 +4,6 @@ import com.example.bankcards.entity.User;
 import com.example.bankcards.exception.UserIsNotEnabledException;
 import com.example.bankcards.exception.UserNotFoundException;
 import com.example.bankcards.repository.UserRepository;
-import com.example.bankcards.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

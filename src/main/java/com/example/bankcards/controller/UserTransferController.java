@@ -4,7 +4,9 @@ import com.example.bankcards.dto.request.CreateTransferRequest;
 import com.example.bankcards.dto.response.TransferResponse;
 import com.example.bankcards.security.userDetails.CustomUserDetails;
 import com.example.bankcards.service.TransferService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,13 +16,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user/transfers")
+@RequestMapping("/user/transfers")
 @RequiredArgsConstructor
+@Tag(name = "User Transfers API", description = "Operations available for USER role")
 @SecurityRequirement(name = "bearerAuth")
 public class UserTransferController {
 
     private final TransferService transferService;
 
+    @Operation(summary = "Create transfer")
     @PostMapping
     public ResponseEntity<?> createTransfer(
             @AuthenticationPrincipal CustomUserDetails userDetails,
@@ -31,6 +35,7 @@ public class UserTransferController {
         return ResponseEntity.status(201).body(response);
     }
 
+    @Operation(summary = "Get personal transfers")
     @GetMapping
     public ResponseEntity<?> getMyTransfers(
             @AuthenticationPrincipal CustomUserDetails userDetails,

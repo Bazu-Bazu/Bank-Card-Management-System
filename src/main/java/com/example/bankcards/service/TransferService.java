@@ -52,12 +52,12 @@ public class TransferService {
         Long cardId = 0L;
 
         if (!from.getUser().getId().equals(userId)) {
-            cardId = from.getUser().getId();
+            cardId = from.getId();
         } else if (!to.getUser().getId().equals(userId)) {
-            cardId = to.getUser().getId();
+            cardId = to.getId();
         }
 
-        if (cardId.equals(0L)) {
+        if (!cardId.equals(0L)) {
             throw new AuthorizationException(
                     String.format("User %d is not the owner of the card %d", userId, cardId)
             );
@@ -73,7 +73,7 @@ public class TransferService {
             cardId = to.getId();
         }
 
-        if (cardId.equals(0L)) {
+        if (!cardId.equals(0L)) {
             throw new CardIsNotActive(
                     String.format("Card %d is not active", cardId)
             );

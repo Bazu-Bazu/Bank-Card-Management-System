@@ -1,10 +1,13 @@
 package com.example.bankcards.service;
 
+import com.example.bankcards.dto.request.AddMoneyRequest;
 import com.example.bankcards.dto.request.CreateCardRequest;
 import com.example.bankcards.dto.response.CardResponse;
 import com.example.bankcards.entity.Card;
 import com.example.bankcards.entity.CardStatus;
+import com.example.bankcards.entity.Role;
 import com.example.bankcards.entity.User;
+import com.example.bankcards.exception.AdminCanNotHaveCardException;
 import com.example.bankcards.exception.AuthorizationException;
 import com.example.bankcards.exception.CardAlreadyExistsException;
 import com.example.bankcards.exception.CardNotFoundException;
@@ -35,6 +38,8 @@ public class CardService {
 
         User user = userService.findUserById(request.ownerId());
 
+        validateUserMayHaveCards(user);
+
         Card newCard = Card.builder()
                 .number(request.cardNumber())
                 .user(user)
@@ -44,6 +49,14 @@ public class CardService {
         Card savedCard = cardRepository.save(newCard);
 
         return createCardResponse(savedCard);
+    }
+
+    private void validateUserMayHaveCards(User user) {
+        if (!user.getRole().equals(Role.USER)) {
+            throw new AdminCanNotHaveCardException(
+                    String.format("User %d can't have a card because his role is not USER", user.getId())
+            );
+        }
     }
 
     @Transactional
@@ -121,6 +134,15 @@ public class CardService {
         card.setBalance(card.getBalance().add(amount));
 
         return card;
+    }
+
+    @Transactional
+    public CardResponse addMoney(Long cardId, AddMoneyRequest request) {
+        Card card = findCardById(cardId);
+        card.setBalance(card.getBalance().add(request.amount()));
+        Card savedCard = cardRepository.save(card);
+
+        return createCardResponse(savedCard);
     }
 
     private CardResponse createCardResponse(Card card) {

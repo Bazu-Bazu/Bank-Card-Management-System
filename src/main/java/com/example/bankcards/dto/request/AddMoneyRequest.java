@@ -4,13 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
-public record CreateTransferRequest(
-
-        @NotNull
-        Long fromCardId,
-
-        @NotNull
-        Long toCardId,
+public record AddMoneyRequest(
 
         @NotNull
         BigDecimal amount

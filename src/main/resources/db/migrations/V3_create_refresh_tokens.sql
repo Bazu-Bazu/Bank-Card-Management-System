@@ -1,4 +1,4 @@
-CREATE TABLE refresh_tokens (
+CREATE TABLE IF NOT EXISTS refresh_tokens (
     id BIGSERIAL PRIMARY KEY,
     token VARCHAR(255) UNIQUE NOT NULL,
     user_id BIGINT NOT NULL REFERENCES users(id),
