@@ -45,7 +45,7 @@ public class TransferService {
         Card savedFrom = cardService.debitMoney(from, amount);
         Card savedTo = cardService.addMoney(to, amount);
 
-        return createTransferResponse(savedTransfer, savedTo.getId(), savedFrom.getId());
+        return createTransferResponse(savedTransfer, savedFrom.getId(), savedTo.getId());
     }
 
     private void validateUserIsOwnerOfCards(Long userId, Card from, Card to) {
